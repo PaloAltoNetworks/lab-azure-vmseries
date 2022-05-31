@@ -13,7 +13,7 @@ The lab assumes the following a Requirement:
 - If you don't have a Azure Subscription visit please https://azure.microsoft.com/en-us/free/ and create one
 - VM-Series Firewalls uses in that lab a PAYG License. You can use a Lab License if you one
 </br>
-The Lab Instructions can be found [HERE](https://github.com/PaloAltoNetworks/lab-azure-vmseries/tree/main/Lab%20Guide)
+The Lab Instructions can be found [HERE](https://github.com/PaloAltoNetworks/lab-azure-vmseries/tree/main/Lab%20Guide).
 
 ```
 Manual Last Updated: 2022-05-31
