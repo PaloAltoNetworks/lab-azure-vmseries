@@ -1,14 +1,15 @@
 # 1. Palo Alto Networks VM-Series on Microsoft Azure
 
-
+<p align="center">
 <img src="https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/primary-company-logo/Parent-logo.png" width=50% height=50%>
+</p>
 
 ## 1.1. Overview
 
 This lab will involve deploying a solution for Azure using Palo Alto Networks VM-Series in a Azure Load Balancer topology.
 
 The lab assumes the following a Requirement:
-- Existing and Acive Microsoft Azure Subscription 
+- Existing and Active Microsoft Azure Subscription 
 - If you don't have a Azure Subscription visit please https://azure.microsoft.com/en-us/free/ and create one
 - VM-Series Firewalls uses in that lab a PAYG License. You can use a Lab License if you one
 
