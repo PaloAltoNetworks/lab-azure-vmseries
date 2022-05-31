@@ -1,0 +1,231 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+    "comments": "This template is released under an as-is, it is used for the PS Regional Summit 2020.",
+    "author": "Torsten Stern (tostern@paloaltonetworks.com)"
+    },
+    "parameters": {
+        "adminUsername": {
+            "type": "String",
+            "metadata": {
+                "description": "Username for the Virtual Machine."
+            }
+        },
+        "adminPassword": {
+            "minLength": 12,
+            "type": "SecureString",
+            "metadata": {
+                "description": "Password for the Virtual Machine."
+            }
+        },
+        "VNETOption": {
+            "defaultValue": "Create new VNET",
+            "allowedValues": [
+                "Create new VNET",
+                "Use existing VNET"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "If creating a new VNET, anything not specified in the template will be deleted."
+            }
+        },
+        "VNETResourceGroup": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "If you are deploying a VNET to a different resource than the firewalls, the resource group MUST exist before launch.  If deploying a VNET to the same resource group as the firewalls, leave the field blank or enter the main resource group name."
+            }
+        },
+        "vmName": {
+            "defaultValue": "simple-vm",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual machine."
+            }
+        },
+        "virtualNetworkName": {
+            "defaultValue": "spoke-vnet",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual network."
+            }
+        },
+        "addressPrefix": {
+            "defaultValue": "10.212.1.0/24",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual network."
+            }
+        },
+        "subnetName": {
+            "defaultValue": "spoke-vnet-subnet",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual network."
+            }
+        },
+        "subnetPrefix": {
+            "defaultValue": "10.212.1.0/25",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual network."
+            }
+        }
+    },
+    "variables": {
+        "global_var_resource_group": "[resourceGroup().name]",
+        "storageAccountName": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "global_vnet_resource_group": "[if(equals(parameters('VNETResourceGroup'), ''), variables('global_var_resource_group'), parameters('VNETResourceGroup'))]",
+        "nicName": "myVMNic",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]",
+        "networkSecurityGroupName": "default-NSG",
+        "global_var_apiVersion": "2018-06-01",
+        "global_spoke_vm_publisher": "Canonical",
+        "global_spoke_vm_offer": "UbuntuServer",
+        "global_spoke_vm_sku": "18.04-LTS",
+        "global_spoke_vm_version": "latest",
+        "global_spoke_vm_osType": "Linux",
+        "global_spoke_vm_diskSizeGB": "30",
+        "global_spoke_vm_diskType": "Standard_LRS",
+        "global_spoke_vm_vmSize": "Standard_B1s",
+        "global_vnet_name": "[if(equals(parameters('VNETOption'), 'Use existing VNET'), parameters('virtualNetworkName'), take(replace(concat(parameters('virtualNetworkName')), ' ', ''), 64))]",
+        "global_vnet_subnet0_name": "[take(replace(parameters('subnetName'), ' ', ''), 80)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[variables('storageAccountName')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "Storage",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('networkSecurityGroupName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-3389",
+                        "properties": {
+                            "priority": 1000,
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "destinationPortRange": "3389",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-06-01",
+            "name": "[parameters('virtualNetworkName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('nicName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId(variables('global_var_resource_group'), 'Microsoft.Network/virtualNetworks', variables('global_vnet_name')), '/subnets/', variables('global_vnet_subnet0_name'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "[variables('global_var_apiVersion')]",
+            "name": "[parameters('vmName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('global_spoke_vm_vmSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('global_spoke_vm_publisher')]",
+                        "offer": "[variables('global_spoke_vm_offer')]",
+                        "sku": "[variables('global_spoke_vm_sku')]",
+                        "version": "[variables('global_spoke_vm_version')]"
+                    },
+                    "osDisk": {
+                        "osType": "[variables('global_spoke_vm_osType')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "[variables('global_spoke_vm_diskType')]"
+                        },
+                        "diskSizeGB": "[variables('global_spoke_vm_diskSizeGB')]"
+                    }
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true
+                    },
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
