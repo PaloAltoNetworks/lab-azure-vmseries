@@ -14,8 +14,7 @@ The lab assumes the following a Requirement:
 - VM-Series Firewalls uses in that lab a PAYG License. You can use a Lab License if you one
 </br>
 The Lab Instructions can be found [HERE](https://github.com/PaloAltoNetworks/lab-azure-vmseries/tree/main/Lab%20Guide).
-[GitHub Pages](https://pages.github.com/).
-
+[HERE](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure_Training%2Fmain%2FAzure%20Basic%20Lab%2FazureDeploy.json)
 ```
 Manual Last Updated: 2022-05-31
 Lab Last Tested: 2022-05-31
