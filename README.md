@@ -3,9 +3,23 @@
 
 <img src="https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/primary-company-logo/Parent-logo.png" width=50% height=50%>
 
-# Azure Lab: 2 x VM-Series (3 NIC) with Public & Internal Load Balancers
+## 1.1. Overview
 
-Deploy 2xVM-Series firewall with 2 Spoke VNETs. Includes Public and Internal Load Balancer and the Spoke VM's.
+This lab will involve deploying a solution for Azure using Palo Alto Networks VM-Series in a Azure Load Balancer topology.
+
+The lab assumes the following a Requirement:
+- Existing and Acive Microsoft Azure Subscription 
+- If you don't have a Azure Subscription visit please https://azure.microsoft.com/en-us/free/ and create one
+- VM-Series Firewalls uses in that lab a PAYG License. You can use a Lab License if you one
+
+```
+Manual Last Updated: 2022-05-31
+Lab Last Tested: 2022-05-31
+```
+
+## 1.2. Deploy Azure Environment
+
+Deploy 2xVM-Series firewall with 2 Spoke VNETs. Includes Public and Internal Load Balancer
 
 <p align="center">
 <img src="https://github.com/PaloAltoNetworks/Azure_Training/blob/main/Azure%20Basic%20Lab/Images/2fw_3nic_avset_intlb_extlb.png">
@@ -15,7 +29,8 @@ Deploy 2xVM-Series firewall with 2 Spoke VNETs. Includes Public and Internal Loa
 </br>
 </br>
 </br>
-#### <img align="right" width="400" src="https://github.com/PaloAltoNetworks/RegionalTrainings2021/blob/main/Images/webapp.png"> Part 2:  Deploy WebApp (Basic/Advanced Lab)
+
+## 1.3.  Deploy WebApp
 
 In this part, We will Deploy a single Linux Server in a dedicated Resource Group
 </br>
