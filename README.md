@@ -9,12 +9,13 @@
 This lab will involve deploying a solution for Azure using Palo Alto Networks VM-Series in a Azure Load Balancer topology.
 
 The lab assumes the following a Requirement:
-- Existing and Active Microsoft Azure Subscription 
-- If you don't have a Azure Subscription visit please https://azure.microsoft.com/en-us/free/ and create one
+
+- Existing and Active Microsoft Azure Subscription
+- If you don't have a Azure Subscription visit please <https://azure.microsoft.com/en-us/free/> and create one
 - VM-Series Firewalls uses in that lab a PAYG License. You can use a Lab License if you one
 </br>
 The Lab Instructions can be found [HERE](https://github.com/PaloAltoNetworks/lab-azure-vmseries/tree/main/Lab%20Guide).
-[HERE](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure_Training%2Fmain%2FAzure%20Basic%20Lab%2FazureDeploy.json)
+
 ```
 Manual Last Updated: 2022-05-31
 Lab Last Tested: 2022-05-31
