@@ -17,7 +17,7 @@ The lab assumes the following a Requirement:
 The Lab Instructions can be found [HERE](https://github.com/PaloAltoNetworks/lab-azure-vmseries/tree/main/Lab%20Guide).
 
 ```
-Manual Last Updated: 2022-05-31
+Lab Guide Last Updated: 2022-06-14
 Lab Last Tested: 2022-05-31
 ```
 
