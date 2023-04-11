@@ -41,7 +41,7 @@ In this part, We will Deploy a single Linux Server in a dedicated Resource Group
 <img src="https://github.com/PaloAltoNetworks/RegionalTrainings2021/blob/main/Images/webapp.png">
 </p>
 
-[<img src="https://github.com/PaloAltoNetworks/Azure_Training/blob/main/Azure%20Advanced%20Lab/Images/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure_Training%2Fmain%2FAzure%20Advanced%20Lab%2Fspokedeployment.json)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure_Training%2Fmain%2FAzure%20Advanced%20Lab%2Fspokedeployment.json)
 </br>
 </br>
 </br>
